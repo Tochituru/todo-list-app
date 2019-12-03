@@ -1,0 +1,7 @@
+- Cuando levanta la aplicación, te permiten ver desde local host y desde (la misma red wifi) la ip con el puerto que se puede usar.
+
+¿Cómo trabajar con inputs y formularios?
+
+¿Qué es un input controlado?
+
+¿Cómo usar material-ui?
