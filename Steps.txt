@@ -42,6 +42,7 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     Luego, creo una nueva variable [array] para agregar destructurando el nuevo valor.
     Ahora, fijamos la nueva información con setState (que pisa lo que tenía antes).
     También agergamos en setState al e.target.name para quede vacío al hacer enter.
+    Después, mapeamos la información dentro del render (también en un componente nuevo).
 
 ¿Importar componentes anónimos?
     Puedo escribir export default directamente a un componente funcional, en vez de nombrarlo como const var = ()
@@ -49,9 +50,23 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     No puedo agregarle componentes si quiero. Puedo cometer el error de nombrarlo de diversas maneras en diversos componentes y, cuando quiero refactorizarlo, no lo encuentro.
     No conviene hacerlo.
 
+¿Cómo cambiamos de tarea pendiente a tarea completa?
+    Primero convertimos state.todo en un array de objetos.
+    Para hacerlo, en enterHandler en vez de sumar el value así como así, lo sumamos como objeto con propiedad text y status.
+    Probamos en onClick dentro del ListItem para ver si imprime el estado.
+    Hago una función change status y se la paso al padre (tasklist). No le paso el parámetro acá porque no quiero que se ejecute en el padre, sino en el hijo.
+    [Fijarse de no modificar el state por referencia, sino siempre crear un nuevo array que reemplace todo].
+
+
+
+    ¿Cómo modificamos la propiedad status al elemento? 
+
+    ¿Cómo colocamos esa lista en dos lugares distintos?
+
+
 ¿Cómo usar Formik?
 
 
 
 
-[Empezar 10-10]
+[10-10 01:17]

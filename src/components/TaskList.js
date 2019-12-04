@@ -1,11 +1,11 @@
 import React from 'react'
-import { CssBaseline, List, ListItem, ListItemText } from '@material-ui/core'
+import { List, ListItem, ListItemText } from '@material-ui/core'
 
 
-const TaskList = ({ data }) => {
+const TaskList = ({ data, changeStatus }) => {
     return (
         <List>
-            {data.map((e, i) => (<ListItem button key={i} ><ListItemText>{e}</ListItemText></ListItem>))}
+            {data.map((e, i) => (<ListItem button onClick={() =>changeStatus(e.id)} key={i} ><ListItemText>{e.text}</ListItemText>{e.status === 'pending' ? '( )' : '( X )' }</ListItem>))}
         </List>
     )
 }
