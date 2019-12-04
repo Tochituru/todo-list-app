@@ -1,7 +1,57 @@
 - Cuando levanta la aplicación, te permiten ver desde local host y desde (la misma red wifi) la ip con el puerto que se puede usar.
-
-¿Cómo trabajar con inputs y formularios?
-
-¿Qué es un input controlado?
+- Si instalamos paquetes cuando tenemos el servidor corriendo, es cortar el servicio, reinstalar (npm install) e iniciarlo de nuevo.
+- Todos los eventos en render son arrow functions que llevan la segunda función en el return.
+- Podemos acceder dinámicamente a las propiedades de un objeto llamando a su propiedad mediante [].
+Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" dentro de this.state (es como si escribiera this.state.task o, para hacerla agnóstica, this.state['task']). Como estoy dentro del estado, me permite encontrarla automáticamente.
+- Si coloco llaves dentro del render, significa que voy a colocar algo en JS.
+- Refactorizar: cuando quiero cambiar alguna prop de una función, tengo que cambiarla en todo componente que lo utilice.
 
 ¿Cómo usar material-ui?
+    Sirve para maquetar rápidamente, pero no se recomienda para usar en producción.
+    Es como bootstrap, pero para react. Nos permite tener componentes predeterminados. Son componentes agnósticos, tiene cosas parametizables. Mirarlo por dentro.
+    Vamos a usarlo en su versión más básica.
+    No es desarrollada por google, pero está basada en el diseño material que propone google (conceptual). Esta es una implementación práctica sobre el concepto material, específicamente para react.
+    Tiende a ser pesada, pero si sabes que solo usarás algunas partes, te deja instalarlas.
+
+    Componentes:
+    CssBaseline 
+        Funciona como un reset CSS, te blanquea los estilos por defecto y te da estilos acordes a los componentes de material-ui.
+        Para usarlo, lo tiramos en el return del class component.
+
+    Todos los otros componentes permiten usar componentes "elementos".
+
+    Inputs: metacategoría de tipos de inputs.
+
+¿Cómo trabajar con inputs y formularios?
+    Los input se manejan distinto en React. Por el estado, que me pide que, para que mi aplicación sea consistente y escalable, toda la info venga del estado.
+    Como se supone que el input modifica al estado, el input debe poder hacerlo.
+    Cuando yo asigno "value", no me permite hacer cambios. Para eso, llamo al evento del DOM onChange.
+    En la función fieldHandler agrego el método setState para la task, que luego vinculo al value del input.
+
+¿Qué es un input controlado?
+    Es un campo cuyo valor está vinculado al estado (de la aplicación) y su modificación también está vinculada al estado.
+    La información vive en un lugar central, que es mi estado y que este campo manipula.
+    Esta es la base de cómo trabajamos con inputs.
+    A medida que trabajamos con más campos, hace falta que tengamos más partes del estado que modifiquen el estado y, de hacer las cosas bien, tenemos un solo manejador que modifica distintas partes del estado que está modificando.
+    Si cada field name es la misma que representa el campo en el state (p. ej., state.task es igual a name={'task'}),  puedo tener varios campos en el render, tener un cacho de estado para cada uno de ellos, con una misma función cambio el cacho de estado porque es agnóstica (depende del name el valor que cambiaremos).
+
+¿Cómo imprimimos la información?
+    Primero creamos la función enterHandler con el método onKeyPress en el render.
+    Primero siempre me fijo en el estado, para asegurarnos de que no esté cambiado nada en el render.
+    Ese resultado lo guardo en una variable.
+    Luego, creo una nueva variable [array] para agregar destructurando el nuevo valor.
+    Ahora, fijamos la nueva información con setState (que pisa lo que tenía antes).
+    También agergamos en setState al e.target.name para quede vacío al hacer enter.
+
+¿Importar componentes anónimos?
+    Puedo escribir export default directamente a un componente funcional, en vez de nombrarlo como const var = ()
+    Cuando lo importo, lo menciono como lo que quiero que sea.
+    No puedo agregarle componentes si quiero. Puedo cometer el error de nombrarlo de diversas maneras en diversos componentes y, cuando quiero refactorizarlo, no lo encuentro.
+    No conviene hacerlo.
+
+¿Cómo usar Formik?
+
+
+
+
+[Empezar 10-10]
