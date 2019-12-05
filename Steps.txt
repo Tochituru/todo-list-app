@@ -57,13 +57,75 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     Hago una función change status y se la paso al padre (tasklist). No le paso el parámetro acá porque no quiero que se ejecute en el padre, sino en el hijo.
     [Fijarse de no modificar el state por referencia, sino siempre crear un nuevo array que reemplace todo].
 
+¿Cómo las editamos?
+
+¿Cómo las eliminamos?
+    Primero, agregamos un botón.
+    Tenemos que agregar el evento onClick para eliminar.
+    Se lo pasamos a tasklist mediante app.JS
+    Conseguimos la id.
+    Luego lo borramos por la id, con splice.
+    Voy a necesitar el elemento, la lista y su índice.
+    Después vuelvo a guardar eso en el estado.
+
 ¿Cómo hacemos la persistencia?
     La persistencia es básicamente presionar F5.
+    Los guardo en el estado y los levanto cuando se modifican.
+    Usamos localStorage:
+    Lo podemos encontrar en la pestaña Application > Storage > Local Storage
+        Básicamente trabaja con una tupla (uno el key y otro el value) y ambos son texto.
+        Si queremos guardar cosas que sean objetos de JS o más complejos, tenemos que guardarlos como texto. Por eso, al guardarlos en local storage, hacemos JSON.stringify, y al momento de levantarlos, JSON.parse.
+
+
+    Hay dos momentos que recordar con local storage:
+    1) El momento de guardar la información.
     
+        Nos interesa que ocurra cuando ya se cargó, cuando el componente necesita la información.
+        Ahí queremos buscar que tenga data cargada.
+        En componentDidMount, quiero fijarme si hay algo en storage que me interese y una vez que lo encuentre, voy a levantarlo y guardarlo en mi estado.
+
+            window.localStorage.getItem('key(titulito', )
+        getItem recibe parámetros: 
+            key: el nombre bajo el que guardo el estado,
+            value: la información que guardo (convertida a texto).
+            Me permite buscar la informacaión ya guardada.
+            Si encuentro un estado dentro de local storage, quiero parsearlo y luego hacerle un setState para que refresque la informacion.
+
+        ¿Cuándo quiero guardar las cosas?
+            Cada vez que tengo un nuevo estado.
+            Para eso, puedo usar el componentsDidUpdate, pero eso no dispara el componentDidMount.
+            No obstante, cada vez que se actualiza el estado, este evento se dispara:
+              componentDidMount = () => {
+                const persistedState = window.localStorage.getItem('todo-state')
+                    this.setState(JSON.parse(persistedState))
+                     }
+
+            componentDidUpdate = () =>{
+                window.localStorage.setItem('todo-state', JSON.stringify(this.state.todo))    
+            }
+
+            A lo mejor no quiero actualizar el estado cada vez que se dispara cualquier evento (por ejemplo, onKeyPress). Puedo hacerlo dentro de las funciones.
+            
+            Otra forma es simplemente guardar el todo
+            para eso, en componentsDidUpdate paso el todo y en componentDidMount, lo hago a través del objeto:
+
+        componentDidMount = () => {
+            const persistedState = window.localStorage.getItem('todo-state')
+            this.setState({todo: JSON.parse(persistedState) || ''})
+            
+        }
+
+        componentDidUpdate = () =>{
+            window.localStorage.setItem('todo-state', JSON.stringify(this.state.todo))    
+        }   
+
+    2) El momento de traer la información.
+        Cuando se modifica el estado.
+    [Ver últimos 10 min de clase de 10-10 para entenderlo]
 
 ¿Cómo usar Formik?
 
 
 
 
-[10-10 01:17]
+[Empezar 10-11]
