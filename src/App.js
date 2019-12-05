@@ -1,29 +1,33 @@
 import React, { Component } from 'react'
-import { CssBaseline, Container, TextField } from '@material-ui/core'
+import { CssBaseline, Container, TextField, } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core'
 import TaskList from './components/TaskList'
 import IdGen from './helpers/idGen'
 
 class App extends Component {
   state = {
+    editField: '',
+    isModalOpen: false,
     task: '',
     todo: [],
   }
 
-  fieldHandler = (e) => this.setState({ [e.target.name]: e.target.value })
-  enterHandler = (e) => {
-    if (e.key === 'Enter' && this.state.hasOwnProperty(e.target.name)) this.saveTask(e.target.name)
-  }
-
-  saveTask = (field) => {
-    let value = this.state[field];
-    let newTodo = [...this.state.todo, { id: IdGen(), text: value, status: 'pending' }]
-    this.setState({ [field]: '', todo: newTodo });
-  }
   changeStatus = (id) => {
     let newTodo = [...this.state.todo]
     let task = newTodo.find((e) => e.id === id)
     task.status = task.status === 'pending' ? 'complete' : 'pending'
     this.setState({ todo: newTodo })
+  }
+
+  componentDidMount = () => {
+    const persistedState = window.localStorage.getItem('todo-state')
+    this.setState({ ...(JSON.parse(persistedState) || { todo: [] }) })
+  }
+
+  componentDidUpdate = () => {
+    let { todo } = this.state
+    let persisted = { todo }
+    window.localStorage.setItem('todo-state', JSON.stringify(persisted))
   }
 
   deleteTask = (id) => {
@@ -33,20 +37,31 @@ class App extends Component {
     this.setState({ todo: newTodo })
   }
 
-  componentDidMount = () => {
-    const persistedState = window.localStorage.getItem('todo-state')
-    this.setState({ ...(JSON.parse(persistedState)) || { todo: ''} })
-
+  openEdition = (id) => {
+    let newTodo = [...this.state.todo]
+    let task = newTodo.find((e) => e.id === id)
+    this.setState({editField: task.text, isModalOpen: true})
   }
 
-  componentDidUpdate = () => {
-    let persisted = this.state.todo
-    window.localStorage.setItem('todo-state', JSON.stringify(persisted))
+  enterHandler = (e) => {
+    if (e.key === 'Enter' && this.state[e.target.name].length > 2) this.saveTask(e.target.name)
+  }
+  fieldHandler = (e) => this.setState({ [e.target.name]: e.target.value })
+
+  toggleModal = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen })
+  }
+
+  saveTask = (field) => {
+    let value = this.state[field];
+    let newTodo = [...this.state.todo, { id: IdGen(`${field}`), text: value, status: 'pending' }]
+    this.setState({ [field]: '', todo: newTodo });
   }
 
   render() {
-    const complete = [...this.state.todo.filter((e) => e.status === 'complete')]
-    const pending = [...this.state.todo.filter((e) => e.status === 'pending')]
+    let { task, isModalOpen, editField, todo } = this.state
+    const complete = [...todo.filter((e) => e.status === 'complete')]
+    const pending = [...todo.filter((e) => e.status === 'pending')]
     return (
       <Container>
         <CssBaseline />
@@ -55,7 +70,7 @@ class App extends Component {
           label={'task'}
           name={'task'}
           variant={'outlined'}
-          value={this.state.task}
+          value={task}
           onChange={(e) => this.fieldHandler(e)}
           onKeyPress={(e) => this.enterHandler(e)}
         >
@@ -66,6 +81,7 @@ class App extends Component {
           data={pending}
           changeStatus={this.changeStatus}
           deleteTask={this.deleteTask}
+          editTask={this.openEdition}
         />
         <TaskList
           title={'Completadas'}
@@ -73,7 +89,37 @@ class App extends Component {
           data={complete}
           changeStatus={this.changeStatus}
           deleteTask={this.deleteTask}
+          editTask={this.openEdition}
         />
+
+        <Dialog open={isModalOpen} onClose={this.toggleModal}>
+          <DialogTitle>
+            Editar
+            </DialogTitle>
+          <DialogContent>
+            <TextField
+              label={'task'}
+              name={'editField'}
+              variant={'outlined'}
+              value={editField}
+              onChange={(e) => this.fieldHandler(e)}
+            >
+            </TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => this.toggleModal()}
+            >
+              Editar
+              </Button>
+            <Button
+              onClick={() => this.toggleModal()}
+            >
+              Cancelar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
       </Container>
     )
   }

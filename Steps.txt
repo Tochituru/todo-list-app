@@ -5,6 +5,7 @@
 Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" dentro de this.state (es como si escribiera this.state.task o, para hacerla agnóstica, this.state['task']). Como estoy dentro del estado, me permite encontrarla automáticamente.
 - Si coloco llaves dentro del render, significa que voy a colocar algo en JS.
 - Refactorizar: cuando quiero cambiar alguna prop de una función, tengo que cambiarla en todo componente que lo utilice.
+- Los componentes tienen que portarse de manera uniforme. Si no lo hacen, significa que nuestras funciones no son lo suficientemente rigurosas.
 
 ¿Cómo usar material-ui?
     Sirve para maquetar rápidamente, pero no se recomienda para usar en producción.
@@ -58,6 +59,15 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     [Fijarse de no modificar el state por referencia, sino siempre crear un nuevo array que reemplace todo].
 
 ¿Cómo las editamos?
+    Hay muchas maneras.
+    Primero, tenemos que agregar la acción de editar (el botón).
+    Segundo, tenemos que habilitar que la persona edite la tarea:
+        ¿Qué criterio usamos? La idea es que sea lo más cómodo para el usuario.
+        Primero, probamos el modal.
+        Voy a tener un solo modal para n cant de tareas.
+        Tengo que desarrollarlo de manera tal que el modal se entere a quién quiero editar y generar el contenido para modificarlo.
+        Creo una nueva property del estado, editField para que cargue la información dentro del modal una vez que ejecute la función.
+
 
 ¿Cómo las eliminamos?
     Primero, agregamos un botón.
@@ -123,9 +133,15 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
         Cuando se modifica el estado.
     [Ver últimos 10 min de clase de 10-10 para entenderlo]
 
+¿Cómo valido que la task no quede vacía?
+    Conviene hacerlo cuando el usuario presiona enter.
+
 ¿Cómo usar Formik?
 
 
+¿Qué es hooks?
+    Es una forma que habilita React para que los functional components puedan utilizar los métodos de class components (p. ej., el estado).
+    [Lo veremos más adelante]
 
 
-[Empezar 10-11]
+[10-11 01:00]
