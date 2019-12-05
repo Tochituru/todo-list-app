@@ -26,13 +26,13 @@ class App extends Component {
     this.setState({ todo: newTodo })
   }
 
-  filterTask = (status) => [...this.state.todo.filter((e) => e.status === status)]
-
   render() {
+    const complete = [...this.state.todo.filter((e) => e.status === 'complete')]
+    const pending = [...this.state.todo.filter((e) => e.status === 'pending')]
     return (
       <Container>
         <CssBaseline />
-        <h1>To-Do</h1>
+        <h1>To-Do List</h1>
         <TextField
           label={'task'}
           name={'task'}
@@ -42,10 +42,8 @@ class App extends Component {
           onKeyPress={(e) => this.enterHandler(e)}
         >
         </TextField>
-        <h3>Pending</h3>
-        <TaskList data={this.filterTask('pending')} changeStatus={this.changeStatus} />
-        <h3>Complete</h3>
-        <TaskList data={this.filterTask('complete')} changeStatus={this.changeStatus} />
+        <TaskList title={'Pendientes'} tag={'(___)'} data={pending} changeStatus={this.changeStatus} />
+        <TaskList title={'Completadas'} tag={'( X )'}data={complete} changeStatus={this.changeStatus} />
       </Container>
     )
   }

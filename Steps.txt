@@ -57,12 +57,9 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     Hago una función change status y se la paso al padre (tasklist). No le paso el parámetro acá porque no quiero que se ejecute en el padre, sino en el hijo.
     [Fijarse de no modificar el state por referencia, sino siempre crear un nuevo array que reemplace todo].
 
-
-
-    ¿Cómo modificamos la propiedad status al elemento? 
-
-    ¿Cómo colocamos esa lista en dos lugares distintos?
-
+¿Cómo hacemos la persistencia?
+    La persistencia es básicamente presionar F5.
+    
 
 ¿Cómo usar Formik?
 
