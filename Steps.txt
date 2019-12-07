@@ -67,6 +67,8 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
         Voy a tener un solo modal para n cant de tareas.
         Tengo que desarrollarlo de manera tal que el modal se entere a quién quiero editar y generar el contenido para modificarlo.
         Creo una nueva property del estado, editField para que cargue la información dentro del modal una vez que ejecute la función.
+        En el setState, guardo el id de la tarea en una nueva property, currentTask. ¿Por qué solo el id? Porque no quiero duplicar la información y quiero guardar en otros lados referencias (p.ej. el id), pero no quiero que ni por casualidad la informacaión del estado. Así es como la apli empieza a ser impredecible.
+        Para guardar la tarea, hago una nueva función, enterEditHandler (después me fijo si puedo agnostizar enterHandler). 
 
 
 ¿Cómo las eliminamos?
@@ -142,6 +144,10 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
 ¿Qué es hooks?
     Es una forma que habilita React para que los functional components puedan utilizar los métodos de class components (p. ej., el estado).
     [Lo veremos más adelante]
+
+¿Cómo indexamos helpers?
+    En la carpeta helpers, creamos un js que se llame index.js
+    Los importamos todos a ese archivo y luego los exporto desde ahí.
 
 
 [10-11 01:00]

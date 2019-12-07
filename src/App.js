@@ -6,6 +6,7 @@ import IdGen from './helpers/idGen'
 
 class App extends Component {
   state = {
+    currentTask: '',
     editField: '',
     isModalOpen: false,
     task: '',
@@ -40,16 +41,30 @@ class App extends Component {
   openEdition = (id) => {
     let newTodo = [...this.state.todo]
     let task = newTodo.find((e) => e.id === id)
-    this.setState({editField: task.text, isModalOpen: true})
+    this.setState({ editField: task.text, isModalOpen: true, currentTask: id })
   }
 
   enterHandler = (e) => {
     if (e.key === 'Enter' && this.state[e.target.name].length > 2) this.saveTask(e.target.name)
   }
+
+  enterEditHandler = (e) => {
+    if (e.key === 'Enter' && this.state.editField) {
+      this.saveEdit()
+    }
+  }
+
   fieldHandler = (e) => this.setState({ [e.target.name]: e.target.value })
 
   toggleModal = () => {
     this.setState({ isModalOpen: !this.state.isModalOpen })
+  }
+
+  saveEdit = () => {
+    let newTodo = [...this.state.todo]
+    let task = newTodo.find((e) => e.id === this.state.currentTask)
+    task.text = this.state.editField
+    this.setState({ todo: newTodo, isModalOpen: false })
   }
 
   saveTask = (field) => {
@@ -103,14 +118,15 @@ class App extends Component {
               variant={'outlined'}
               value={editField}
               onChange={(e) => this.fieldHandler(e)}
+              onKeyPress={(e) => this.enterEditHandler(e)}
             >
             </TextField>
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => this.toggleModal()}
+              onClick={() => this.saveEdit()}
             >
-              Editar
+              Guardar
               </Button>
             <Button
               onClick={() => this.toggleModal()}
