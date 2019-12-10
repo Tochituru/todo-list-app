@@ -149,5 +149,4 @@ Por ejemplo, en this.state[e.target.name] estoy buscando la propiedad "task" den
     En la carpeta helpers, creamos un js que se llame index.js
     Los importamos todos a ese archivo y luego los exporto desde ahí.
 
-
-[10-11 01:00]
+el fin
